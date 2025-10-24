@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}설문 완료{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>설문 완료!</h1>
+    <p>설문 ID: {{ survey_id }}</p>
+    <a href="{% url 'results:show_result' survey_id %}" class="btn btn-primary">결과 보기</a>
+</div>
+{% endblock %}

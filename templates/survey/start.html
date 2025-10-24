@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}설문 시작{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>나에게 맞는 부산 집은?</h1>
+    <p>12문항 설문으로 당신만의 집 스타일을 찾아보세요!</p>
+    <a href="{% url 'survey:survey_question' 'Q1' %}" class="btn btn-primary">설문 시작하기</a>
+</div>
+{% endblock %}
