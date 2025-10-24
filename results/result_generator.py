@@ -158,7 +158,8 @@ def get_survey_result_summary(survey_result):
         'persona_subtitle': persona_desc.get('subtitle', ''),
         'matching_score': survey_result.matching_score,
         'matching_reasons': survey_result.detailed_analysis.get('matching_reasons', []),
-        'top_areas': survey_result.recommended_areas[:3],  # 상위 3개 지역
+        'recommended_areas': survey_result.recommended_areas,  # 모든 추천 지역
+        'top_areas': survey_result.recommended_areas[:3],  # 상위 3개 지역 (하위 호환성)
         'recommended_properties': survey_result.recommended_properties[:2],  # 상위 2개 매물 타입
         'radar_chart_data': survey_result.detailed_analysis.get('radar_chart_data', {}),
         'persona_characteristics': persona_desc.get('characteristics', []),

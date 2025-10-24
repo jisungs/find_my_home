@@ -87,7 +87,7 @@
                         <div class="col-md-6">
                             <h6>추천 지역:</h6>
                             <ul class="list-unstyled">
-                                {% for area in result_summary.top_areas|slice:":3" %}
+                                {% for area in result_summary.recommended_areas %}
                                 <li><i class="fas fa-map-marker-alt text-primary"></i> {{ area.name }}</li>
                                 {% endfor %}
                             </ul>

@@ -115,27 +115,257 @@ BUSAN_AREA_DATA = {
         'convenience_score': 80
     },
     
-    '북구': {
-        'persona_match': '모던_미니멀형',
-        'description': '교통이 편리하고 현대적인 시설이 갖춰진 지역으로 미니멀한 라이프스타일을 추구하는 분들에게 적합합니다.',
-        'price_range': '2-6억',
+    '기장군': {
+        'persona_match': '해안가_라이프스타일형',
+        'description': '부산의 동쪽 끝에 위치한 기장군은 해안가와 산악지형이 조화된 지역으로 자연친화적인 라이프스타일을 추구하는 분들에게 최적입니다.',
+        'price_range': '3-8억',
         'advantages': [
-            '지하철 1호선 연결',
-            '현대적인 아파트 단지',
+            '해운대 해수욕장 근접',
+            '자연환경 우수',
             '상대적으로 저렴한 가격',
-            '편리한 교통망'
+            '조용한 주거환경'
         ],
         'disadvantages': [
-            '제한된 문화시설',
+            '대중교통 불편',
+            '상업시설 부족',
+            '도심 접근성 제한'
+        ],
+        'transportation_score': 60,
+        'education_score': 70,
+        'lifestyle_score': 85,
+        'investment_score': 75,
+        'nature_score': 95,
+        'convenience_score': 60
+    },
+    
+    '수영구': {
+        'persona_match': '해안가_라이프스타일형',
+        'description': '수영구는 해운대와 인접한 지역으로 해안가 접근성이 좋으면서도 상대적으로 조용한 환경을 제공합니다.',
+        'price_range': '4-10억',
+        'advantages': [
+            '해운대 근접',
+            '지하철 2호선 연결',
+            '조용한 주거환경',
+            '자연환경 우수'
+        ],
+        'disadvantages': [
+            '상업시설 제한',
+            '교통 체증 가능성',
+            '높은 부동산 가격'
+        ],
+        'transportation_score': 80,
+        'education_score': 75,
+        'lifestyle_score': 85,
+        'investment_score': 80,
+        'nature_score': 90,
+        'convenience_score': 70
+    },
+    
+    '부산진구': {
+        'persona_match': '도심_라이프스타일형',
+        'description': '부산진구는 서면과 인접한 도심 지역으로 교통과 생활 편의성이 뛰어납니다.',
+        'price_range': '3-7억',
+        'advantages': [
+            '서면 접근성',
+            '지하철 1호선 연결',
+            '다양한 상업시설',
+            '우수한 학군'
+        ],
+        'disadvantages': [
             '높은 인구밀도',
-            '녹지공간 부족'
+            '교통 체증',
+            '소음'
+        ],
+        'transportation_score': 90,
+        'education_score': 85,
+        'lifestyle_score': 85,
+        'investment_score': 85,
+        'nature_score': 50,
+        'convenience_score': 90
+    },
+    
+    '동래구': {
+        'persona_match': '도심_라이프스타일형',
+        'description': '동래구는 부산의 전통과 현대가 조화된 지역으로 도심 생활의 편의성을 제공합니다.',
+        'price_range': '3-6억',
+        'advantages': [
+            '지하철 1호선 연결',
+            '전통시장 접근성',
+            '우수한 학군',
+            '다양한 문화시설'
+        ],
+        'disadvantages': [
+            '교통 체증',
+            '높은 인구밀도',
+            '제한된 주차공간'
         ],
         'transportation_score': 85,
+        'education_score': 80,
+        'lifestyle_score': 80,
+        'investment_score': 80,
+        'nature_score': 60,
+        'convenience_score': 85
+    },
+    
+    '연제구': {
+        'persona_match': '도심_라이프스타일형',
+        'description': '연제구는 부산의 행정 중심지로 도심 생활의 편의성과 안정성을 제공합니다.',
+        'price_range': '3-6억',
+        'advantages': [
+            '지하철 1호선 연결',
+            '행정기관 접근성',
+            '우수한 학군',
+            '안정적인 주거환경'
+        ],
+        'disadvantages': [
+            '교통 체증',
+            '높은 인구밀도',
+            '제한된 녹지공간'
+        ],
+        'transportation_score': 85,
+        'education_score': 85,
+        'lifestyle_score': 80,
+        'investment_score': 80,
+        'nature_score': 55,
+        'convenience_score': 85
+    },
+    
+    '강서구': {
+        'persona_match': '산업도시_자연친화형',
+        'description': '강서구는 김해공항과 인접한 지역으로 산업과 자연이 조화된 환경을 제공합니다.',
+        'price_range': '2-5억',
+        'advantages': [
+            '김해공항 접근성',
+            '낙동강 근처 자연환경',
+            '상대적으로 저렴한 가격',
+            '산업단지 근접'
+        ],
+        'disadvantages': [
+            '공항 소음',
+            '대중교통 불편',
+            '제한된 문화시설'
+        ],
+        'transportation_score': 70,
+        'education_score': 65,
+        'lifestyle_score': 70,
+        'investment_score': 75,
+        'nature_score': 75,
+        'convenience_score': 65
+    },
+    
+    '사하구': {
+        'persona_match': '산업도시_자연친화형',
+        'description': '사하구는 부산의 서쪽 끝에 위치한 지역으로 산업과 자연이 조화된 환경을 제공합니다.',
+        'price_range': '2-4억',
+        'advantages': [
+            '낙동강 근처 자연환경',
+            '상대적으로 저렴한 가격',
+            '조용한 주거환경',
+            '산업단지 근접'
+        ],
+        'disadvantages': [
+            '대중교통 불편',
+            '제한된 상업시설',
+            '도심 접근성 제한'
+        ],
+        'transportation_score': 60,
+        'education_score': 60,
+        'lifestyle_score': 65,
+        'investment_score': 70,
+        'nature_score': 80,
+        'convenience_score': 60
+    },
+    
+    '영도구': {
+        'persona_match': '항만_라이프스타일형',
+        'description': '영도구는 부산항과 가까운 섬 지역으로 항만과 해양 레저를 즐길 수 있는 독특한 환경을 제공합니다.',
+        'price_range': '2-5억',
+        'advantages': [
+            '부산항 접근성',
+            '해양 레저 활동',
+            '독특한 섬 환경',
+            '상대적으로 저렴한 가격'
+        ],
+        'disadvantages': [
+            '섬 지역으로 접근성 제한',
+            '제한된 상업시설',
+            '교통 불편'
+        ],
+        'transportation_score': 50,
+        'education_score': 60,
+        'lifestyle_score': 70,
+        'investment_score': 70,
+        'nature_score': 85,
+        'convenience_score': 55
+    },
+    
+    '중구': {
+        'persona_match': '항만_라이프스타일형',
+        'description': '중구는 부산의 역사적 중심지로 항만과 가까운 지역에서 전통과 현대가 조화된 생활을 즐길 수 있습니다.',
+        'price_range': '3-6억',
+        'advantages': [
+            '부산항 접근성',
+            '역사적 문화유산',
+            '다양한 문화시설',
+            '지하철 1호선 연결'
+        ],
+        'disadvantages': [
+            '높은 인구밀도',
+            '교통 체증',
+            '제한된 녹지공간'
+        ],
+        'transportation_score': 80,
         'education_score': 70,
         'lifestyle_score': 75,
-        'investment_score': 75,
-        'nature_score': 45,
+        'investment_score': 80,
+        'nature_score': 60,
         'convenience_score': 80
+    },
+    
+    '동구': {
+        'persona_match': '항만_라이프스타일형',
+        'description': '동구는 부산항과 가까운 지역으로 항만 관련 업무와 해양 레저를 즐길 수 있는 환경을 제공합니다.',
+        'price_range': '2-5억',
+        'advantages': [
+            '부산항 접근성',
+            '해양 레저 활동',
+            '상대적으로 저렴한 가격',
+            '다양한 문화시설'
+        ],
+        'disadvantages': [
+            '항만 소음',
+            '교통 체증',
+            '제한된 녹지공간'
+        ],
+        'transportation_score': 75,
+        'education_score': 65,
+        'lifestyle_score': 70,
+        'investment_score': 75,
+        'nature_score': 65,
+        'convenience_score': 70
+    },
+    
+    '남구': {
+        'persona_match': '항만_라이프스타일형',
+        'description': '남구는 부산의 남쪽에 위치한 지역으로 항만과 가까운 환경에서 가족 중심의 라이프스타일을 추구하는 분들에게 적합합니다.',
+        'price_range': '3-6억',
+        'advantages': [
+            '부산항 접근성',
+            '가족 친화적 환경',
+            '지하철 1호선 연결',
+            '다양한 문화시설'
+        ],
+        'disadvantages': [
+            '높은 인구밀도',
+            '제한된 녹지공간',
+            '교통 체증'
+        ],
+        'transportation_score': 85,
+        'education_score': 75,
+        'lifestyle_score': 80,
+        'investment_score': 80,
+        'nature_score': 50,
+        'convenience_score': 85
     }
 }
 
@@ -195,11 +425,26 @@ def get_matching_reasons(answers, persona_type):
     return reasons
 
 def get_recommended_areas(persona_type):
-    """페르소나별 추천 지역 반환"""
+    """페르소나별 추천 지역 반환 - 페르소나 설명에 나온 모든 지역 포함"""
     recommended_areas = []
     
-    for area_name, area_data in BUSAN_AREA_DATA.items():
-        if area_data['persona_match'] == persona_type:
+    # 페르소나별 추천 지역 매핑 (페르소나 설명에 나온 지역들)
+    persona_area_mapping = {
+        '해안가_라이프스타일형': ['해운대구', '기장군', '수영구'],
+        '도심_라이프스타일형': ['부산진구', '동래구', '연제구'],
+        '자연친화_크리에이티브형': ['금정구', '북구', '기장군'],
+        '산업도시_자연친화형': ['강서구', '사상구', '사하구'],
+        '항만_라이프스타일형': ['영도구', '중구', '동구', '남구'],
+        '모던_미니멀형': ['남구', '수영구', '해운대구']
+    }
+    
+    # 해당 페르소나의 추천 지역 목록 가져오기
+    recommended_area_names = persona_area_mapping.get(persona_type, [])
+    
+    # BUSAN_AREA_DATA에서 해당 지역들의 정보 가져오기
+    for area_name in recommended_area_names:
+        if area_name in BUSAN_AREA_DATA:
+            area_data = BUSAN_AREA_DATA[area_name]
             recommended_areas.append({
                 'name': area_name,
                 'description': area_data['description'],
@@ -213,6 +458,23 @@ def get_recommended_areas(persona_type):
                     'investment': area_data['investment_score'],
                     'nature': area_data['nature_score'],
                     'convenience': area_data['convenience_score']
+                }
+            })
+        else:
+            # BUSAN_AREA_DATA에 없는 지역의 경우 기본 정보 생성
+            recommended_areas.append({
+                'name': area_name,
+                'description': f'{area_name}은(는) {persona_type} 페르소나에 적합한 지역입니다.',
+                'price_range': '정보 없음',
+                'advantages': ['페르소나 매칭 지역'],
+                'disadvantages': ['상세 정보 없음'],
+                'scores': {
+                    'transportation': 70,
+                    'education': 70,
+                    'lifestyle': 70,
+                    'investment': 70,
+                    'nature': 70,
+                    'convenience': 70
                 }
             })
     

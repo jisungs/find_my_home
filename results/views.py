@@ -35,7 +35,7 @@ def share_result(request, survey_id):
 {chr(10).join([f"• {reason}" for reason in result_summary['matching_reasons'][:3]])}
 
 📍 추천 지역:
-{chr(10).join([f"• {area['name']}" for area in result_summary['top_areas'][:3]])}
+{chr(10).join([f"• {area['name']}" for area in result_summary['recommended_areas']])}
 
 부산 집 찾기 서비스에서 나만의 집 스타일을 확인해보세요!
     """.strip()
