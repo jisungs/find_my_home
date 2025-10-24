@@ -71,6 +71,12 @@
                                     {% endfor %}
                                 </div>
                                 {{ form.answer }}
+                                <div class="mt-2">
+                                    <small class="text-info">
+                                        <i class="fas fa-info-circle"></i> 
+                                        항목을 드래그하여 순서를 변경한 후 다음 버튼을 눌러주세요.
+                                    </small>
+                                </div>
                             </div>
                             
                         {% elif question.question_type == 'slider' %}
@@ -79,10 +85,17 @@
                                     <span>완전히 독립</span>
                                     <span>친밀한 이웃</span>
                                 </div>
-                                <input type="range" class="form-range" min="0" max="100" value="50" id="slider">
-                                <div class="text-center mt-2">
-                                    <span id="sliderValue">50</span>
-                                </div>
+                                {% if form.answer.value %}
+                                    <input type="range" class="form-range" min="0" max="100" value="{{ form.answer.value }}" id="slider">
+                                    <div class="text-center mt-2">
+                                        <span id="sliderValue">{{ form.answer.value }}</span>
+                                    </div>
+                                {% else %}
+                                    <input type="range" class="form-range" min="0" max="100" value="50" id="slider">
+                                    <div class="text-center mt-2">
+                                        <span id="sliderValue">50</span>
+                                    </div>
+                                {% endif %}
                                 {{ form.answer }}
                             </div>
                         {% endif %}
@@ -102,26 +115,72 @@
     </div>
 </div>
 
+<!-- 드래그 정렬 안내 모달 -->
+<div class="modal fade" id="dragModal" tabindex="-1" aria-labelledby="dragModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dragModalLabel">
+                    <i class="fas fa-exclamation-triangle text-warning"></i> 순서를 정해주세요
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>이 질문은 드래그 정렬 방식입니다.</p>
+                <p>아래 항목들을 <strong>드래그하여 순서를 변경</strong>한 후 다음 버튼을 눌러주세요.</p>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>사용법:</strong> 각 항목의 <i class="fas fa-grip-vertical"></i> 아이콘을 클릭하고 드래그하여 순서를 변경하세요.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    <i class="fas fa-check"></i> 알겠습니다
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
 <script>
 $(document).ready(function() {
+    var isDragModified = false; // 드래그가 수정되었는지 추적
+    
     // 드래그 정렬 기능
     if ($('#sortable').length) {
+        // 초기 순서 저장
+        var initialOrder = [];
+        $('#sortable .list-group-item').each(function() {
+            initialOrder.push($(this).data('value'));
+        });
+        $('#id_answer').val(JSON.stringify(initialOrder));
+        
         $('#sortable').sortable({
             update: function(event, ui) {
+                isDragModified = true; // 드래그가 수정됨을 표시
                 var order = [];
                 $('#sortable .list-group-item').each(function() {
                     order.push($(this).data('value'));
                 });
                 $('#id_answer').val(JSON.stringify(order));
+                
+                // 시각적 피드백 추가
+                $('#sortable .list-group-item').removeClass('bg-light border-primary');
+                $(ui.item).addClass('bg-light border-primary');
             }
         });
     }
     
     // 슬라이더 기능
     if ($('#slider').length) {
+        // 초기값 설정
+        var initialValue = $('#slider').val();
+        $('#sliderValue').text(initialValue);
+        $('#id_answer').val(initialValue);
+        
         $('#slider').on('input', function() {
             var value = $(this).val();
             $('#sliderValue').text(value);
@@ -129,8 +188,15 @@ $(document).ready(function() {
         });
     }
     
-    // 폼 제출 시 로딩 표시
-    $('#surveyForm').on('submit', function() {
+    // 폼 제출 시 로딩 표시 및 드래그 정렬 검증
+    $('#surveyForm').on('submit', function(e) {
+        // 드래그 정렬 문항인 경우 검증
+        if ($('#sortable').length && !isDragModified) {
+            e.preventDefault(); // 폼 제출 중단
+            $('#dragModal').modal('show'); // 모달 표시
+            return false;
+        }
+        
         $('button[type="submit"]').html('<i class="fas fa-spinner fa-spin"></i> 처리중...');
     });
 });
@@ -157,6 +223,26 @@ $(document).ready(function() {
 .drag-container .list-group-item {
     cursor: move;
     user-select: none;
+    transition: all 0.3s ease;
+}
+
+.drag-container .list-group-item:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.drag-container .list-group-item.ui-sortable-helper {
+    background-color: #e3f2fd;
+    border: 2px solid #2196f3;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: rotate(2deg);
+}
+
+.drag-container .list-group-item.ui-sortable-placeholder {
+    background-color: #f0f0f0;
+    border: 2px dashed #ccc;
+    height: 50px;
 }
 
 .slider-container {

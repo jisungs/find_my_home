@@ -48,7 +48,10 @@ class SurveyAnswerForm(forms.Form):
             # 슬라이더는 JavaScript로 처리
             self.fields['answer'] = forms.IntegerField(
                 widget=forms.HiddenInput(),
-                label=question.question_text
+                label=question.question_text,
+                required=True,
+                min_value=0,
+                max_value=100
             )
         elif question.question_type == 'text':
             self.fields['answer'] = forms.CharField(

@@ -97,6 +97,11 @@ def survey_complete(request, survey_id):
     # 기본 페르소나 선택 (나중에 알고리즘으로 대체)
     default_persona = PersonaType.objects.first()
     
+    if not default_persona:
+        # 페르소나가 없으면 에러 메시지와 함께 홈으로 리다이렉트
+        messages.error(request, '페르소나 데이터가 없습니다. 관리자에게 문의해주세요.')
+        return redirect('home')
+    
     if not SurveyResult.objects.filter(survey=survey).exists():
         SurveyResult.objects.create(
             survey=survey,
