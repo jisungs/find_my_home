@@ -1,11 +1,168 @@
 {% extends 'base.html' %}
 
-{% block title %}설문 문항{% endblock %}
+{% block title %}{{ question.question_id }} - 설문 진행{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>문항 {{ question_id }}</h1>
-    <p>설문이 진행 중입니다...</p>
-    <p>현재 문항: {{ question_id }}</p>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- 진행률 표시 -->
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-muted">{{ step_name }}</span>
+                        <span class="text-muted">{{ progress }}% 완료</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{ progress }}%" 
+                             aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 질문 카드 -->
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <h3 class="card-title">{{ question.question_id }}. {{ question.question_text }}</h3>
+                    </div>
+                    
+                    <form method="post" id="surveyForm">
+                        {% csrf_token %}
+                        
+                        {% if question.question_type == 'single' %}
+                            <div class="form-check-group">
+                                {% for choice in form.answer %}
+                                    <div class="form-check mb-3">
+                                        {{ choice.tag }}
+                                        <label class="form-check-label" for="{{ choice.id_for_label }}">
+                                            {{ choice.choice_label }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            
+                        {% elif question.question_type == 'multiple' %}
+                            <div class="form-check-group">
+                                {% for choice in form.answer %}
+                                    <div class="form-check mb-3">
+                                        {{ choice.tag }}
+                                        <label class="form-check-label" for="{{ choice.id_for_label }}">
+                                            {{ choice.choice_label }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            
+                        {% elif question.question_type == 'text' %}
+                            <div class="mb-3">
+                                {{ form.answer }}
+                            </div>
+                            
+                        {% elif question.question_type == 'drag' %}
+                            <div class="drag-container mb-3">
+                                <p class="text-muted">아래 항목들을 드래그하여 우선순위를 정해주세요:</p>
+                                <div id="sortable" class="list-group">
+                                    {% for option in question.options %}
+                                        <div class="list-group-item" data-value="{{ option }}">
+                                            <i class="fas fa-grip-vertical me-2"></i>{{ option }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {{ form.answer }}
+                            </div>
+                            
+                        {% elif question.question_type == 'slider' %}
+                            <div class="slider-container mb-3">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>완전히 독립</span>
+                                    <span>친밀한 이웃</span>
+                                </div>
+                                <input type="range" class="form-range" min="0" max="100" value="50" id="slider">
+                                <div class="text-center mt-2">
+                                    <span id="sliderValue">50</span>
+                                </div>
+                                {{ form.answer }}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'survey:survey_start' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-home"></i> 처음으로
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                다음 <i class="fas fa-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // 드래그 정렬 기능
+    if ($('#sortable').length) {
+        $('#sortable').sortable({
+            update: function(event, ui) {
+                var order = [];
+                $('#sortable .list-group-item').each(function() {
+                    order.push($(this).data('value'));
+                });
+                $('#id_answer').val(JSON.stringify(order));
+            }
+        });
+    }
+    
+    // 슬라이더 기능
+    if ($('#slider').length) {
+        $('#slider').on('input', function() {
+            var value = $(this).val();
+            $('#sliderValue').text(value);
+            $('#id_answer').val(value);
+        });
+    }
+    
+    // 폼 제출 시 로딩 표시
+    $('#surveyForm').on('submit', function() {
+        $('button[type="submit"]').html('<i class="fas fa-spinner fa-spin"></i> 처리중...');
+    });
+});
+</script>
+
+<style>
+.form-check-group .form-check {
+    padding: 1rem;
+    border: 1px solid #e9ecef;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.form-check-group .form-check:hover {
+    background-color: #f8f9fa;
+    border-color: #007bff;
+}
+
+.form-check-group .form-check-input:checked + .form-check-label {
+    font-weight: 600;
+    color: #007bff;
+}
+
+.drag-container .list-group-item {
+    cursor: move;
+    user-select: none;
+}
+
+.slider-container {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+}
+</style>
 {% endblock %}

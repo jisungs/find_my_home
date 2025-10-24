@@ -1,11 +1,77 @@
 {% extends 'base.html' %}
 
-{% block title %}설문 시작{% endblock %}
+{% block title %}설문 시작 - 부산 집 찾기{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>나에게 맞는 부산 집은?</h1>
-    <p>12문항 설문으로 당신만의 집 스타일을 찾아보세요!</p>
-    <a href="{% url 'survey:survey_question' 'Q1' %}" class="btn btn-primary">설문 시작하기</a>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h1 class="display-4 text-primary">🏠</h1>
+                        <h2 class="card-title">나에게 맞는 부산 집은?</h2>
+                        <p class="lead text-muted">12문항 설문으로 당신만의 집 스타일을 찾아보세요!</p>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-4 text-center">
+                            <div class="step-icon">📋</div>
+                            <h5>STEP 1</h5>
+                            <p class="text-muted">하드 필터<br>(5문항)</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="step-icon">🎨</div>
+                            <h5>STEP 2</h5>
+                            <p class="text-muted">감성 프로필<br>(4문항)</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="step-icon">⚖️</div>
+                            <h5>STEP 3</h5>
+                            <p class="text-muted">현실 제약<br>(3문항)</p>
+                        </div>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.user_name.label_tag }}
+                            {{ form.user_name }}
+                            {% if form.user_name.errors %}
+                                <div class="text-danger">{{ form.user_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-4">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="text-danger">{{ form.email.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                설문 시작하기 <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-4">
+                        <small class="text-muted">
+                            <i class="fas fa-clock"></i> 예상 소요시간: 약 5분
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+.step-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+</style>
 {% endblock %}
