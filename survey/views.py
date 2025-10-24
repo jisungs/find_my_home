@@ -91,25 +91,31 @@ def survey_complete(request, survey_id):
     """설문 완료 처리"""
     survey = get_object_or_404(Survey, id=survey_id)
     
-    # 설문 결과 생성 (임시로 기본값 설정)
+    # 설문 결과 생성 (매칭 알고리즘 사용)
     from results.models import PersonaType, SurveyResult
+    from results.result_generator import create_survey_result
     
-    # 기본 페르소나 선택 (나중에 알고리즘으로 대체)
-    default_persona = PersonaType.objects.first()
-    
-    if not default_persona:
-        # 페르소나가 없으면 에러 메시지와 함께 홈으로 리다이렉트
+    # 페르소나 데이터 확인
+    if not PersonaType.objects.exists():
         messages.error(request, '페르소나 데이터가 없습니다. 관리자에게 문의해주세요.')
         return redirect('home')
     
-    if not SurveyResult.objects.filter(survey=survey).exists():
-        SurveyResult.objects.create(
+    # 매칭 알고리즘으로 결과 생성
+    try:
+        survey_result = create_survey_result(survey)
+        messages.success(request, '설문 결과가 성공적으로 생성되었습니다!')
+    except Exception as e:
+        # 에러 발생 시 기본 페르소나로 결과 생성
+        default_persona = PersonaType.objects.first()
+        survey_result = SurveyResult.objects.create(
             survey=survey,
             persona_type=default_persona,
-            matching_score=85,
+            matching_score=75,
             recommended_areas=[],
-            recommended_properties=[]
+            recommended_properties=[],
+            detailed_analysis={'error': str(e)}
         )
+        messages.warning(request, '결과 생성 중 오류가 발생했지만 기본 결과를 제공합니다.')
     
     return render(request, 'survey/complete.html', {'survey': survey})
 

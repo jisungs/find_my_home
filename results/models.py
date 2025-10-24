@@ -76,3 +76,15 @@ class SurveyResult(models.Model):
     def get_top_recommended_properties(self, limit=3):
         """상위 추천 매물 반환"""
         return self.recommended_properties[:limit]
+    
+    def get_matching_reasons(self):
+        """매칭 이유 반환"""
+        return self.detailed_analysis.get('matching_reasons', [])
+    
+    def get_persona_description(self):
+        """페르소나 설명 반환"""
+        return self.detailed_analysis.get('persona_description', {})
+    
+    def get_radar_chart_data(self):
+        """레이더 차트 데이터 반환"""
+        return self.detailed_analysis.get('radar_chart_data', {})

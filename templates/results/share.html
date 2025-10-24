@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block title %}결과 공유 - {{ result_summary.persona_title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- 공유 헤더 -->
+            <div class="card shadow mb-4">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <h1 class="display-1">{{ result_summary.persona_icon }}</h1>
+                        <h2 class="card-title" style="color: {{ result_summary.persona_color }};">
+                            {{ result_summary.persona_title }}
+                        </h2>
+                        <p class="lead text-muted">{{ result_summary.persona_subtitle }}</p>
+                    </div>
+                    
+                    <!-- 매칭 점수 -->
+                    <div class="score-circle mx-auto mb-4" style="width: 120px; height: 120px;">
+                        <div class="score-text">
+                            <h4 class="mb-0">{{ result_summary.matching_score }}점</h4>
+                            <small>매칭률</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 공유 텍스트 -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-share-alt"></i> 공유 텍스트</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="shareText" class="form-label">아래 텍스트를 복사하여 공유하세요:</label>
+                        <textarea class="form-control" id="shareText" rows="8" readonly>{{ share_text }}</textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="copyToClipboard()">
+                        <i class="fas fa-copy"></i> 텍스트 복사하기
+                    </button>
+                </div>
+            </div>
+            
+            <!-- SNS 공유 버튼 -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-share-nodes"></i> SNS 공유</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <button class="btn btn-warning btn-lg w-100" onclick="shareToKakao()">
+                                <i class="fas fa-comment"></i> 카카오톡
+                            </button>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <button class="btn btn-primary btn-lg w-100" onclick="shareToFacebook()">
+                                <i class="fab fa-facebook-f"></i> 페이스북
+                            </button>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <button class="btn btn-info btn-lg w-100" onclick="shareToTwitter()">
+                                <i class="fab fa-twitter"></i> 트위터
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 결과 요약 -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-chart-bar"></i> 결과 요약</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>매칭 이유:</h6>
+                            <ul class="list-unstyled">
+                                {% for reason in result_summary.matching_reasons|slice:":3" %}
+                                <li><i class="fas fa-check text-success"></i> {{ reason }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>추천 지역:</h6>
+                            <ul class="list-unstyled">
+                                {% for area in result_summary.top_areas|slice:":3" %}
+                                <li><i class="fas fa-map-marker-alt text-primary"></i> {{ area.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 액션 버튼 -->
+            <div class="card shadow mb-4">
+                <div class="card-body text-center">
+                    <div class="d-grid gap-2 d-md-block">
+                        <a href="{% url 'results:show_result' survey.id %}" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-eye"></i> 전체 결과 보기
+                        </a>
+                        <a href="{% url 'survey:survey_start' %}" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-redo"></i> 다시 하기
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyToClipboard() {
+    const textArea = document.getElementById('shareText');
+    textArea.select();
+    textArea.setSelectionRange(0, 99999); // 모바일에서도 작동하도록
+    
+    try {
+        document.execCommand('copy');
+        alert('텍스트가 클립보드에 복사되었습니다!');
+    } catch (err) {
+        alert('복사에 실패했습니다. 수동으로 복사해주세요.');
+    }
+}
+
+function shareToKakao() {
+    const text = document.getElementById('shareText').value;
+    const url = window.location.href;
+    
+    // 카카오톡 공유 (실제 구현 시 카카오 SDK 필요)
+    if (navigator.share) {
+        navigator.share({
+            title: '{{ result_summary.persona_title }} - 부산 집 찾기 결과',
+            text: text,
+            url: url
+        });
+    } else {
+        alert('카카오톡 공유 기능은 모바일에서만 지원됩니다.');
+    }
+}
+
+function shareToFacebook() {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent('{{ result_summary.persona_title }} - 부산 집 찾기 결과');
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
+}
+
+function shareToTwitter() {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent('{{ result_summary.persona_title }} - 부산 집 찾기 결과');
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+}
+</script>
+
+<style>
+.score-circle {
+    border-radius: 50%;
+    background: linear-gradient(135deg, {{ result_summary.persona_color }}, {{ result_summary.persona_color }}88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.score-text h4 {
+    font-weight: bold;
+}
+
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.list-unstyled li {
+    margin-bottom: 0.5rem;
+}
+
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+#shareText {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+</style>
+{% endblock %}

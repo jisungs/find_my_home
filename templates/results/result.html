@@ -1,11 +1,262 @@
 {% extends 'base.html' %}
 
-{% block title %}결과 페이지{% endblock %}
+{% block title %}설문 결과 - {{ result_summary.persona_title }}{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>당신의 부산 홈 DNA</h1>
-    <p>설문 ID: {{ survey_id }}</p>
-    <p>결과가 곧 표시됩니다...</p>
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <!-- 결과 헤더 -->
+            <div class="card shadow mb-4">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <h1 class="display-1">{{ result_summary.persona_icon }}</h1>
+                        <h2 class="card-title" style="color: {{ result_summary.persona_color }};">
+                            {{ result_summary.persona_title }}
+                        </h2>
+                        <p class="lead text-muted">{{ result_summary.persona_subtitle }}</p>
+                    </div>
+                    
+                    <!-- 매칭 점수 -->
+                    <div class="row mb-4">
+                        <div class="col-md-6 mx-auto">
+                            <div class="score-circle mx-auto" style="width: 150px; height: 150px;">
+                                <div class="score-text">
+                                    <h3 class="mb-0">{{ result_summary.matching_score }}점</h3>
+                                    <small class="text-muted">매칭률</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="lead">{{ result_summary.ideal_lifestyle }}</p>
+                </div>
+            </div>
+            
+            <!-- 매칭 이유 -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-lightbulb"></i> 매칭 이유</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for reason in result_summary.matching_reasons %}
+                        <div class="col-md-6 mb-3">
+                            <div class="alert alert-info">
+                                <i class="fas fa-check-circle text-success"></i> {{ reason }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 레이더 차트 -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-chart-radar"></i> 페르소나 특성 분석</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <canvas id="radarChart" width="400" height="400"></canvas>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>특성 설명</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-car text-primary"></i> <strong>교통:</strong> 대중교통 및 자차 접근성</li>
+                                <li><i class="fas fa-graduation-cap text-info"></i> <strong>교육:</strong> 학군 및 교육시설</li>
+                                <li><i class="fas fa-home text-success"></i> <strong>생활:</strong> 생활 편의성 및 문화시설</li>
+                                <li><i class="fas fa-chart-line text-warning"></i> <strong>투자:</strong> 부동산 투자 가치</li>
+                                <li><i class="fas fa-tree text-success"></i> <strong>자연환경:</strong> 녹지 및 자연환경</li>
+                                <li><i class="fas fa-store text-secondary"></i> <strong>편의시설:</strong> 상업시설 및 편의시설</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 추천 지역 -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> 추천 지역</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for area in result_summary.top_areas %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ area.name }}</h6>
+                                    <p class="card-text small">{{ area.description }}</p>
+                                    <div class="mb-2">
+                                        <span class="badge bg-primary">{{ area.price_range }}</span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <h6 class="small mb-1">장점:</h6>
+                                        <ul class="list-unstyled small">
+                                            {% for advantage in area.advantages|slice:":3" %}
+                                            <li><i class="fas fa-plus text-success"></i> {{ advantage }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="mb-2">
+                                        <h6 class="small mb-1">단점:</h6>
+                                        <ul class="list-unstyled small">
+                                            {% for disadvantage in area.disadvantages|slice:":2" %}
+                                            <li><i class="fas fa-minus text-danger"></i> {{ disadvantage }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 추천 매물 -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-building"></i> 추천 매물 타입</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for property in result_summary.recommended_properties %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ property.type }}</h6>
+                                    <p class="card-text">{{ property.description }}</p>
+                                    <div class="mb-2">
+                                        <span class="badge bg-info">{{ property.price_range }}</span>
+                                    </div>
+                                    <div>
+                                        <h6 class="small mb-1">특징:</h6>
+                                        <ul class="list-unstyled small">
+                                            {% for feature in property.features %}
+                                            <li><i class="fas fa-check text-success"></i> {{ feature }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 액션 버튼 -->
+            <div class="card shadow mb-4">
+                <div class="card-body text-center">
+                    <div class="d-grid gap-2 d-md-block">
+                        <a href="{% url 'results:share_result' survey.id %}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-share-alt"></i> 결과 공유하기
+                        </a>
+                        <a href="{% url 'property:property_list' %}" class="btn btn-success btn-lg">
+                            <i class="fas fa-search"></i> 매물 보러가기
+                        </a>
+                        <a href="{% url 'survey:survey_start' %}" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-redo"></i> 다시 하기
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// 레이더 차트 생성
+const radarData = {{ result_summary.radar_chart_data|safe }};
+
+const ctx = document.getElementById('radarChart').getContext('2d');
+const radarChart = new Chart(ctx, {
+    type: 'radar',
+    data: radarData,
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            r: {
+                beginAtZero: true,
+                max: 100,
+                ticks: {
+                    stepSize: 20,
+                    color: '#666'
+                },
+                grid: {
+                    color: '#e0e0e0'
+                },
+                pointLabels: {
+                    color: '#333',
+                    font: {
+                        size: 12
+                    }
+                }
+            }
+        },
+        elements: {
+            line: {
+                borderWidth: 3
+            },
+            point: {
+                radius: 5,
+                hoverRadius: 8
+            }
+        }
+    }
+});
+</script>
+
+<style>
+.score-circle {
+    border-radius: 50%;
+    background: linear-gradient(135deg, {{ result_summary.persona_color }}, {{ result_summary.persona_color }}88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.score-text h3 {
+    font-weight: bold;
+    font-size: 2.5rem;
+}
+
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.alert {
+    border-left: 4px solid;
+}
+
+.alert-info {
+    border-left-color: #17a2b8;
+}
+
+.badge {
+    font-size: 0.8rem;
+}
+
+.list-unstyled li {
+    margin-bottom: 0.25rem;
+}
+</style>
 {% endblock %}
