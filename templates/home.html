@@ -3,35 +3,102 @@
 {% block title %}부산 집 찾기 서비스{% endblock %}
 
 {% block content %}
+<!-- 히어로 섹션 -->
+<div class="hero-section">
+    <div class="container" style="position: relative; z-index: 3;">
+        <div class="row">
+            <div class="col-md-8 mx-auto text-center">
+                <h1 class="hero-title">나에게 맞는 부산 집은?</h1>
+                <p class="hero-subtitle">12문항 설문으로 당신만의 집을 찾아보세요!</p>
+                <a href="{% url 'survey:survey_start' %}" class="btn btn-light btn-lg mt-4 text-white" style="border: 2px solid white;">
+                    <i class="fas fa-rocket"></i> 설문 시작하기
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
-    <h1>나에게 맞는 부산 집은?</h1>
-    <p>12문항 설문으로 당신만의 집 스타일을 찾아보세요!</p>
-    
+    <!-- 주요 기능 카드 -->
     <div class="row">
         <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">설문 시작</h5>
-                    <p class="card-text">12문항 설문으로 집 스타일 진단</p>
-                    <a href="{% url 'survey:survey_start' %}" class="btn btn-primary">시작하기</a>
+            <div class="card text-center">
+                <div class="card-body p-4">
+                    <div class="mb-3">
+                        <i class="fas fa-clipboard-list fa-4x text-primary"></i>
+                    </div>
+                    <h4 class="card-title">단계별 설문</h4>
+                    <p class="card-text">하드 필터 → 감성 프로필 → 현실 제약 순으로 진행되는 맞춤형 설문</p>
+                    <a href="{% url 'survey:survey_start' %}" class="btn btn-primary text-white">
+                        <i class="fas fa-arrow-right"></i> 시작하기
+                    </a>
                 </div>
             </div>
         </div>
+        
         <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">매물 보기</h5>
-                    <p class="card-text">부산 지역 매물 정보</p>
-                    <a href="{% url 'property:property_list' %}" class="btn btn-secondary">매물 보기</a>
+            <div class="card text-center">
+                <div class="card-body p-4">
+                    <div class="mb-3">
+                        <i class="fas fa-user-tie fa-4x text-success"></i>
+                    </div>
+                    <h4 class="card-title">페르소나 매칭</h4>
+                    <p class="card-text">6가지 부산 특화 페르소나 타입으로<br>나에게 맞는 집 스타일 진단 <span class="text-warning">(준비중)</span></p>
+                    <a href="{% url 'survey:survey_start' %}" class="btn btn-danger text-black disabled">
+                        <i class="fas fa-search"></i> 진단받기
+                    </a>
                 </div>
             </div>
         </div>
+        
         <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body p-4">
+                    <div class="mb-3">
+                        <i class="fas fa-map-marked-alt fa-4x text-warning"></i>
+                    </div>
+                    <h4 class="card-title">지역 추천</h4>
+                    <p class="card-text">매칭된 페르소나에 맞는 부산 지역 18곳 맞춤형 추천<br><span class="text-warning">(준비중)</span></p>
+                    <a href="{% url 'property:property_list' %}" class="btn btn-warning disabled">
+                        <i class="fas fa-building"></i> 매물 보기
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 서비스 소개 -->
+    <div class="row mt-5">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">관리자</h5>
-                    <p class="card-text">관리자 페이지</p>
-                    <a href="{% url 'admin:index' %}" class="btn btn-outline-primary">관리자</a>
+                <div class="card-header text-white" style="padding: 1.5rem 1.25rem; display: flex; align-items: center;">
+                    <h4 class="card-title mb-0 text-white font-weight-bold" style="margin: 0;">
+                        <i class="fas fa-star"></i> 서비스 특징   
+                    </h4>
+                </div>
+                <div class="card-body" style="padding: 1.5rem 1.25rem;">
+                    <div class="row">
+                        <div class="col-md-3 text-center mb-3">
+                            <i class="fas fa-chart-pie fa-3x text-primary mb-3"></i>
+                            <h6>데이터 기반</h6>
+                            <p class="small">정확한 분석과 매칭</p>
+                        </div>
+                        <div class="col-md-3 text-center mb-3">
+                            <i class="fas fa-mobile-alt fa-3x text-info mb-3"></i>
+                            <h6>모바일 최적화</h6>
+                            <p class="small">어디서나 간편하게</p>
+                        </div>
+                        <div class="col-md-3 text-center mb-3">
+                            <i class="fas fa-share-alt fa-3x text-success mb-3"></i>
+                            <h6>SNS 공유</h6>
+                            <p class="small">친구들과 함께</p>
+                        </div>
+                        <div class="col-md-3 text-center mb-3">
+                            <i class="fas fa-hand-holding-usd fa-3x text-warning mb-3"></i>
+                            <h6>완전 무료</h6>
+                            <p class="small">언제든 쉽게 이용</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

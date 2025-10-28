@@ -7,24 +7,21 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <!-- 결과 헤더 -->
-            <div class="card shadow mb-4">
-                <div class="card-body text-center p-5">
-                    <div class="mb-4">
-                        <h1 class="display-1">{{ result_summary.persona_icon }}</h1>
-                        <h2 class="card-title" style="color: {{ result_summary.persona_color }};">
-                            {{ result_summary.persona_title }}
-                        </h2>
-                        <p class="lead text-muted">{{ result_summary.persona_subtitle }}</p>
+            <div class="card shadow-lg mb-4">
+                <div class="card-header text-white" style="background: linear-gradient(135deg, {{ result_summary.persona_color }}, {{ result_summary.persona_color }}88);">
+                    <div class="text-center">
+                        <h1 class="display-1 mb-3">{{ result_summary.persona_icon }}</h1>
+                        <h2 class="card-title mb-2">{{ result_summary.persona_title }}</h2>
+                        <p class="mb-0">{{ result_summary.persona_subtitle }}</p>
                     </div>
-                    
+                </div>
+                <div class="card-body text-center p-5">
                     <!-- 매칭 점수 -->
-                    <div class="row mb-4">
-                        <div class="col-md-6 mx-auto">
-                            <div class="score-circle mx-auto" style="width: 150px; height: 150px;">
-                                <div class="score-text">
-                                    <h3 class="mb-0">{{ result_summary.matching_score }}점</h3>
-                                    <small class="text-muted">매칭률</small>
-                                </div>
+                    <div class="mb-4">
+                        <div class="score-circle mx-auto" style="width: 180px; height: 180px;">
+                            <div class="score-text">
+                                <h2 class="mb-2">{{ result_summary.matching_score }}점</h2>
+                                <small class="text-white-50">매칭률</small>
                             </div>
                         </div>
                     </div>

@@ -6,11 +6,15 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card shadow">
+            <div class="card shadow-lg">
                 <div class="card-body p-5 text-center">
                     <div class="mb-4">
-                        <h1 class="display-1 text-success">🎉</h1>
-                        <h2 class="card-title">설문 완료!</h2>
+                        <div class="score-circle mx-auto mb-4" style="width: 150px; height: 150px;">
+                            <div class="score-text">
+                                <h1 class="display-3 mb-0">🎉</h1>
+                            </div>
+                        </div>
+                        <h2 class="card-title font-weight-bold">설문 완료!</h2>
                         <p class="lead text-muted">{{ survey.user_name }}님, 설문에 참여해주셔서 감사합니다.</p>
                     </div>
                     

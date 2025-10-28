@@ -1,0 +1,458 @@
+/* ==================================================
+   부산 집 찾기 서비스 - 커스텀 테마 CSS
+   ================================================== */
+
+/* --- 부산 테마 색상 변수 --- */
+:root {
+    --busan-primary: #1e3a8a;          /* 부산 블루 */
+    --busan-secondary: #f59e0b;       /* 부산 골드 */
+    --busan-accent: #10b981;          /* 부산 그린 */
+    --busan-warning: #f97316;         /* 부산 오렌지 */
+    --busan-danger: #ef4444;          /* 부산 레드 */
+    --busan-light: #f8fafc;           /* 부산 라이트 */
+    --busan-dark: #1e293b;            /* 부산 다크 */
+    --busan-gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+}
+
+/* --- 전역 스타일 개선 --- */
+body {
+    background-color: #f5f7fa;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+/* --- 네비게이션 바 개선 --- */
+.navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.navbar-dark.bg-primary {
+    background: var(--busan-gradient) !important;
+}
+
+/* --- 카드 스타일 개선 --- */
+.card {
+    border: none;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    margin-bottom: 2rem;
+}
+
+.card:hover {
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
+    border-bottom: none;
+    padding: 1.25rem;
+}
+
+.card-title {
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+/* --- 진행률 바 개선 --- */
+.progress {
+    height: 10px;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: #e3f2fd;
+}
+
+.progress-bar {
+    background: var(--busan-gradient);
+    background-size: 200% 100%;
+    animation: progressAnimation 3s ease-in-out infinite;
+}
+
+@keyframes progressAnimation {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* --- 버튼 스타일 개선 --- */
+.btn {
+    border-radius: 25px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+    background: var(--busan-gradient);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: var(--busan-gradient);
+    filter: brightness(1.1);
+}
+
+.btn-lg {
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+}
+
+/* --- 폼 요소 개선 --- */
+.form-control {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--busan-primary);
+    box-shadow: 0 0 0 0.2rem rgba(30, 58, 138, 0.25);
+}
+
+.form-check {
+    padding: 1rem;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-check:hover {
+    border-color: var(--busan-primary);
+    background-color: #f8f9ff;
+    transform: translateX(5px);
+}
+
+.form-check-input:checked {
+    background-color: var(--busan-primary);
+    border-color: var(--busan-primary);
+}
+
+.form-check-label {
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* --- 폼 범위 슬라이더 --- */
+.form-range {
+    padding: 0.5rem 0;
+}
+
+.form-range::-webkit-slider-thumb {
+    background: var(--busan-gradient);
+    border: 3px solid white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-range::-moz-range-thumb {
+    background: var(--busan-gradient);
+    border: 3px solid white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* --- 드래그 정렬 개선 --- */
+.drag-container .list-group-item {
+    cursor: move;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+    background: white;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.drag-container .list-group-item:hover {
+    border-color: var(--busan-primary);
+    background: #f8f9ff;
+    transform: translateY(-2px);
+}
+
+.drag-container .list-group-item.ui-sortable-helper {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: 2px solid #667eea;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    transform: rotate(2deg) scale(1.05);
+}
+
+/* --- 배지 스타일 --- */
+.badge {
+    padding: 0.5rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+/* --- 알림 개선 --- */
+.alert {
+    border-radius: 10px;
+    border-left: 5px solid;
+    padding: 1rem 1.5rem;
+}
+
+.alert-info {
+    background-color: #e3f2fd;
+    border-left-color: var(--busan-primary);
+    color: #1565c0;
+}
+
+/* --- 스코어 서클 개선 --- */
+.score-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--busan-gradient);
+    color: white;
+    box-shadow: 0 10px 40px rgba(30, 58, 138, 0.3);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.score-text h3 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+/* --- 히어로 섹션 --- */
+.hero-section {
+    background: linear-gradient(135deg, #a2aee8 0%, #0f81fb 100%);
+    color: white;
+    padding: 5rem 0;
+    border-radius: 20px;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 배경 이미지 슬라이더 - 그라데이션 오버레이 재정의 */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    animation: heroBackground 35s infinite, heroZoomOut 35s infinite;
+    opacity: 1;
+    z-index: 1;
+    will-change: opacity, transform;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* 배경 이미지 애니메이션 - 부드러운 전환 */
+@keyframes heroBackground {
+    /* Image 1: busan_1 */
+    0% { background-image: url('../img/busan-theme/busan_1.jpg'); }
+    13% { background-image: url('../img/busan-theme/busan_1.jpg'); }
+    13.6% { background-image: url('../img/busan-theme/busan_2.jpg'); }  /* opacity 0인 구간에 이미지 로드 */
+    16% { background-image: url('../img/busan-theme/busan_2.jpg'); }
+    
+    /* Image 2: busan_2 */
+    28% { background-image: url('../img/busan-theme/busan_2.jpg'); }
+    28.6% { background-image: url('../img/busan-theme/busan_3.jpg'); }  /* opacity 0인 구간에 이미지 로드 */
+    31% { background-image: url('../img/busan-theme/busan_3.jpg'); }
+    
+    /* Image 3: busan_3 */
+    43% { background-image: url('../img/busan-theme/busan_3.jpg'); }
+    43.6% { background-image: url('../img/busan-theme/busan_4.jpg'); }  /* opacity 0인 구간에 이미지 로드 */
+    46% { background-image: url('../img/busan-theme/busan_4.jpg'); }
+    
+    /* Image 4: busan_4 */
+    58% { background-image: url('../img/busan-theme/busan_4.jpg'); }
+    58.6% { background-image: url('../img/busan-theme/busan_5.jpg'); }  /* opacity 0인 구간에 이미지 로드 */
+    61% { background-image: url('../img/busan-theme/busan_5.jpg'); }
+    
+    /* Image 5: busan_5 */
+    73% { background-image: url('../img/busan-theme/busan_5.jpg'); }
+    73.6% { background-image: url('../img/busan-theme/busan_6.jpg'); }  /* opacity 0인 구간에 이미지 로드 */
+    76% { background-image: url('../img/busan-theme/busan_6.jpg'); }
+    
+    /* Image 6: busan_6 */
+    88% { background-image: url('../img/busan-theme/busan_6.jpg'); }
+    88.6% { background-image: url('../img/busan-theme/busan_7.jpg'); }  /* opacity 0인 구간에 이미지 로드 */
+    91% { background-image: url('../img/busan-theme/busan_7.jpg'); }
+    
+    /* Image 7: busan_7 */
+    100% { background-image: url('../img/busan-theme/busan_7.jpg'); }
+}
+
+/* Zoom Out + 부드러운 Fade 효과 */
+@keyframes heroZoomOut {
+    /* Image 1 표시 */
+    0% { transform: scale(1.08); opacity: 1; }
+    11% { transform: scale(1.0); opacity: 1; }
+    12% { transform: scale(0.99); opacity: 0.9; }
+    12.5% { transform: scale(0.97); opacity: 0.5; }
+    13% { transform: scale(0.95); opacity: 0; }
+    13.6% { transform: scale(1.08); opacity: 0; }    /* 새 이미지 준비 중 */
+    14% { transform: scale(1.08); opacity: 0.3; }    /* 새 이미지 서서히 나타남 */
+    14.5% { transform: scale(1.08); opacity: 0.7; }
+    15% { transform: scale(1.08); opacity: 1; }      /* 새 이미지 완전히 표시 */
+    
+    /* Image 2 표시 */
+    28% { transform: scale(1.0); opacity: 1; }
+    27% { transform: scale(1.0); opacity: 1; }
+    27.5% { transform: scale(0.99); opacity: 0.9; }
+    28% { transform: scale(0.97); opacity: 0.5; }
+    28.5% { transform: scale(0.95); opacity: 0; }
+    28.6% { transform: scale(1.08); opacity: 0; }
+    29% { transform: scale(1.08); opacity: 0.3; }
+    29.5% { transform: scale(1.08); opacity: 0.7; }
+    30% { transform: scale(1.08); opacity: 1; }
+    
+    /* Image 3 표시 */
+    42% { transform: scale(1.0); opacity: 1; }
+    42% { transform: scale(0.99); opacity: 0.9; }
+    42.5% { transform: scale(0.97); opacity: 0.5; }
+    43% { transform: scale(0.95); opacity: 0; }
+    43.6% { transform: scale(1.08); opacity: 0; }
+    44% { transform: scale(1.08); opacity: 0.3; }
+    44.5% { transform: scale(1.08); opacity: 0.7; }
+    45% { transform: scale(1.08); opacity: 1; }
+    
+    /* Image 4 표시 */
+    57% { transform: scale(1.0); opacity: 1; }
+    57% { transform: scale(0.99); opacity: 0.9; }
+    57.5% { transform: scale(0.97); opacity: 0.5; }
+    58% { transform: scale(0.95); opacity: 0; }
+    58.6% { transform: scale(1.08); opacity: 0; }
+    59% { transform: scale(1.08); opacity: 0.3; }
+    59.5% { transform: scale(1.08); opacity: 0.7; }
+    60% { transform: scale(1.08); opacity: 1; }
+    
+    /* Image 5 표시 */
+    72% { transform: scale(1.0); opacity: 1; }
+    72% { transform: scale(0.99); opacity: 0.9; }
+    72.5% { transform: scale(0.97); opacity: 0.5; }
+    73% { transform: scale(0.95); opacity: 0; }
+    73.6% { transform: scale(1.08); opacity: 0; }
+    74% { transform: scale(1.08); opacity: 0.3; }
+    74.5% { transform: scale(1.08); opacity: 0.7; }
+    75% { transform: scale(1.08); opacity: 1; }
+    
+    /* Image 6 표시 */
+    87% { transform: scale(1.0); opacity: 1; }
+    87% { transform: scale(0.99); opacity: 0.9; }
+    87.5% { transform: scale(0.97); opacity: 0.5; }
+    88% { transform: scale(0.95); opacity: 0; }
+    88.6% { transform: scale(1.08); opacity: 0; }
+    89% { transform: scale(1.08); opacity: 0.3; }
+    89.5% { transform: scale(1.08); opacity: 0.7; }
+    90% { transform: scale(1.08); opacity: 1; }
+    
+    /* Image 7 표시 */
+    98% { transform: scale(1.0); opacity: 1; }
+    100% { transform: scale(1.0); opacity: 1; }
+}
+
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    opacity: 0.95;
+}
+
+/* --- 단계 아이콘 --- */
+.step-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+    background: var(--busan-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 5px 20px rgba(30, 58, 138, 0.3);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* --- 반응형 개선 --- */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .card {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* --- 푸터 개선 --- */
+footer {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    padding: 2rem 0;
+    margin-top: 4rem;
+}
+
+footer p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* --- 모달 개선 --- */
+.modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    background: var(--busan-gradient);
+    color: white;
+    border-bottom: none;
+    border-radius: 15px 15px 0 0;
+}
+
+.modal-footer {
+    border-top: none;
+}
+

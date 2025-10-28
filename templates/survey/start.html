@@ -5,73 +5,102 @@
 {% block content %}
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-body p-5">
-                    <div class="text-center mb-4">
-                        <h1 class="display-4 text-primary">🏠</h1>
-                        <h2 class="card-title">나에게 맞는 부산 집은?</h2>
-                        <p class="lead text-muted">12문항 설문으로 당신만의 집 스타일을 찾아보세요!</p>
-                    </div>
-                    
-                    <div class="row mb-4">
-                        <div class="col-md-4 text-center">
+        <div class="col-md-10">
+            <!-- 히어로 섹션 -->
+            <div class="text-center mb-5">
+                <h1 class="display-3 font-weight-bold mb-3">
+                    <i class="fas fa-home text-primary"></i> 나에게 맞는 부산 집은?
+                </h1>
+                <p class="lead text-muted">12문항 설문으로 당신만의 집 스타일을 찾아보세요!</p>
+            </div>
+            
+            <!-- 단계 소개 카드 -->
+            <div class="card shadow-lg mb-4">
+                <div class="card-header text-white">
+                    <h4 class="card-title mb-0 text-white">
+                        <i class="fas fa-list-ol"></i> 설문 구성 (3단계)
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center mb-3">
                             <div class="step-icon">📋</div>
-                            <h5>STEP 1</h5>
-                            <p class="text-muted">하드 필터<br>(5문항)</p>
+                            <h5 class="font-weight-bold">STEP 1</h5>
+                            <p class="text-muted mb-2">하드 필터</p>
+                            <p class="small mb-0"><strong>5문항</strong></p>
+                            <div class="mt-3">
+                                <small class="badge bg-primary">예산 / 인원</small>
+                            </div>
                         </div>
-                        <div class="col-md-4 text-center">
+                        <div class="col-md-4 text-center mb-3">
                             <div class="step-icon">🎨</div>
-                            <h5>STEP 2</h5>
-                            <p class="text-muted">감성 프로필<br>(4문항)</p>
+                            <h5 class="font-weight-bold">STEP 2</h5>
+                            <p class="text-muted mb-2">감성 프로필</p>
+                            <p class="small mb-0"><strong>4문항</strong></p>
+                            <div class="mt-3">
+                                <small class="badge bg-success">라이프스타일</small>
+                            </div>
                         </div>
-                        <div class="col-md-4 text-center">
+                        <div class="col-md-4 text-center mb-3">
                             <div class="step-icon">⚖️</div>
-                            <h5>STEP 3</h5>
-                            <p class="text-muted">현실 제약<br>(3문항)</p>
+                            <h5 class="font-weight-bold">STEP 3</h5>
+                            <p class="text-muted mb-2">현실 제약</p>
+                            <p class="small mb-0"><strong>3문항</strong></p>
+                            <div class="mt-3">
+                                <small class="badge bg-warning">우선순위</small>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <!-- 시작 폼 카드 -->
+            <div class="card shadow-lg">
+                <div class="card-header text-white">
+                    <h4 class="card-title mb-0 text-white">
+                        <i class="fas fa-user"></i> 시작하기
+                    </h4>
+                </div>
+                <div class="card-body p-5">
                     
                     <form method="post">
                         {% csrf_token %}
-                        <div class="mb-3">
-                            {{ form.user_name.label_tag }}
+                        <div class="mb-4">
+                            <label for="{{ form.user_name.id_for_label }}" class="form-label">
+                                <i class="fas fa-user"></i> 이름
+                            </label>
                             {{ form.user_name }}
                             {% if form.user_name.errors %}
-                                <div class="text-danger">{{ form.user_name.errors }}</div>
+                                <div class="text-danger small mt-1">{{ form.user_name.errors }}</div>
                             {% endif %}
                         </div>
                         
                         <div class="mb-4">
-                            {{ form.email.label_tag }}
+                            <label for="{{ form.email.id_for_label }}" class="form-label">
+                                <i class="fas fa-envelope"></i> 이메일 (선택)
+                            </label>
                             {{ form.email }}
                             {% if form.email.errors %}
-                                <div class="text-danger">{{ form.email.errors }}</div>
+                                <div class="text-danger small mt-1">{{ form.email.errors }}</div>
                             {% endif %}
+                            <small class="text-muted">이메일을 입력하시면 결과를 받아보실 수 있습니다.</small>
                         </div>
                         
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary btn-lg">
-                                설문 시작하기 <i class="fas fa-arrow-right ms-2"></i>
+                                <i class="fas fa-rocket"></i> 설문 시작하기
                             </button>
                         </div>
                     </form>
-                    
-                    <div class="text-center mt-4">
-                        <small class="text-muted">
-                            <i class="fas fa-clock"></i> 예상 소요시간: 약 5분
-                        </small>
-                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <small class="text-muted">
+                        <i class="fas fa-clock"></i> 예상 소요시간: 약 5분 | 
+                        <i class="fas fa-shield-alt"></i> 개인정보는 안전하게 보호됩니다
+                    </small>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-.step-icon {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-</style>
 {% endblock %}
