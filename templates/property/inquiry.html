@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ property.title }} - 문의하기{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header text-white">
+                    <h4 class="card-title mb-0 text-white font-weight-bold">
+                        <i class="fas fa-envelope"></i> 매물 문의하기
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <!-- 매물 정보 요약 -->
+                    <div class="alert alert-info mb-4">
+                        <h5 class="mb-2">{{ property.title }}</h5>
+                        <p class="mb-1">
+                            <i class="fas fa-map-marker-alt"></i> {{ property.location }}
+                        </p>
+                        <p class="mb-0">
+                            <strong>{{ property.get_price_display }}</strong>
+                        </p>
+                    </div>
+                    
+                    <!-- 문의 폼 -->
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name" class="form-label">
+                                <i class="fas fa-user"></i> 이름 <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">
+                                <i class="fas fa-phone"></i> 연락처 <span class="text-danger">*</span>
+                            </label>
+                            <input type="tel" class="form-control" id="phone" name="phone" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                <i class="fas fa-envelope"></i> 이메일 <span class="text-danger">*</span>
+                            </label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="inquiry_type" class="form-label">
+                                <i class="fas fa-list"></i> 문의 유형 <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-control" id="inquiry_type" name="inquiry_type" required>
+                                <option value="viewing">방문 상담</option>
+                                <option value="price">가격 문의</option>
+                                <option value="loan">대출 문의</option>
+                                <option value="other">기타</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="message" class="form-label">
+                                <i class="fas fa-comment"></i> 문의 내용 <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'property:property_detail' property.id %}" class="btn btn-outline-secondary">
+                                취소
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> 문의하기
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

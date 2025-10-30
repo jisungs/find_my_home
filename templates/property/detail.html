@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ property.title }} - 부산 매물{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <!-- 매물 헤더 -->
+            <div class="card shadow-lg mb-4">
+                <div class="card-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2 class="mb-2 text-white font-weight-bold">{{ property.title }}</h2>
+                            <p class="mb-0 text-white-50">
+                                <i class="fas fa-map-marker-alt"></i> {{ property.location }}
+                            </p>
+                        </div>
+                        {% if property.is_featured %}
+                        <span class="badge bg-warning text-dark">
+                            <i class="fas fa-star"></i> 추천 매물
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- 가격 및 기본 정보 -->
+                    <div class="row mb-4">
+                        <div class="col-md-4 text-center mb-3">
+                            <h3 class="text-primary mb-1">{{ property.get_price_display }}</h3>
+                            <small class="text-muted">매매 가격</small>
+                        </div>
+                        <div class="col-md-4 text-center mb-3">
+                            <h5 class="mb-1">{{ property.area }}</h5>
+                            <small class="text-muted">면적</small>
+                        </div>
+                        <div class="col-md-4 text-center mb-3">
+                            <h5 class="mb-1">{{ property.rooms }}방 {{ property.bathrooms }}욕</h5>
+                            <small class="text-muted">구조</small>
+                        </div>
+                    </div>
+                    
+                    <!-- 점수 표시 -->
+                    <div class="row mb-4">
+                        <div class="col-md-3 text-center">
+                            <div class="card border-primary">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">
+                                        <i class="fas fa-car text-primary"></i> 교통
+                                    </h6>
+                                    <h4 class="text-primary mb-0">{{ property.transportation_score }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="card border-success">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">
+                                        <i class="fas fa-graduation-cap text-success"></i> 학군
+                                    </h6>
+                                    <h4 class="text-success mb-0">{{ property.education_score }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="card border-info">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">
+                                        <i class="fas fa-home text-info"></i> 생활
+                                    </h6>
+                                    <h4 class="text-info mb-0">{{ property.lifestyle_score }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="card border-warning">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">
+                                        <i class="fas fa-chart-line text-warning"></i> 투자
+                                    </h6>
+                                    <h4 class="text-warning mb-0">{{ property.investment_score }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 상세 정보 -->
+            <div class="card shadow mb-4">
+                <div class="card-header text-white">
+                    <h5 class="mb-0 text-white font-weight-bold">
+                        <i class="fas fa-info-circle"></i> 상세 정보
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted mb-2">
+                                <i class="fas fa-map-marker-alt text-primary"></i> 주소
+                            </h6>
+                            <p class="mb-0">{{ property.location }}</p>
+                            <p class="text-muted small mb-0">{{ property.district }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted mb-2">
+                                <i class="fas fa-tag text-info"></i> 매물 타입
+                            </h6>
+                            <p class="mb-0">{{ property.get_property_type_display }}</p>
+                            <span class="badge bg-secondary">{{ property.get_persona_match_display }}</span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted mb-2">
+                                <i class="fas fa-ruler-combined text-success"></i> 면적 정보
+                            </h6>
+                            <p class="mb-0">{{ property.area }}</p>
+                            {% if property.land_area %}
+                            <small class="text-muted">대지: {{ property.land_area }}평 / 건물: {{ property.building_area }}평</small>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <h6 class="text-muted mb-2">
+                                <i class="fas fa-parking text-warning"></i> 주차 및 편의시설
+                            </h6>
+                            <p class="mb-0">주차: {{ property.parking }}대</p>
+                            {% if property.garden_area %}
+                            <small class="text-muted">정원: {{ property.garden_area }}평</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 교통 정보 -->
+            <div class="card shadow mb-4">
+                <div class="card-header text-white bg-primary">
+                    <h5 class="mb-0 text-white font-weight-bold">
+                        <i class="fas fa-car"></i> 교통
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-primary mb-2">
+                        <p class="mb-0">
+                            <i class="fas fa-star"></i> 
+                            교통 점수: <strong>{{ property.transportation_score }}</strong>점
+                        </p>
+                    </div>
+                    {% if transportation_info %}
+                    <div style="white-space: pre-line; line-height: 1.8;">
+                        {{ transportation_info }}
+                    </div>
+                    {% else %}
+                    <p class="text-muted mb-0">상세 교통 정보가 없습니다.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- 학군 정보 -->
+            <div class="card shadow mb-4">
+                <div class="card-header text-white bg-success">
+                    <h5 class="mb-0 text-white font-weight-bold">
+                        <i class="fas fa-graduation-cap"></i> 학군
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-success mb-2">
+                        <p class="mb-0">
+                            <i class="fas fa-star"></i> 
+                            학군 점수: <strong>{{ property.education_score }}</strong>점
+                        </p>
+                    </div>
+                    {% if education_info %}
+                    <div style="white-space: pre-line; line-height: 1.8;">
+                        {{ education_info }}
+                    </div>
+                    {% else %}
+                    <p class="text-muted mb-0">상세 학군 정보가 없습니다.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- 기타 주변환경 -->
+            <div class="card shadow mb-4">
+                <div class="card-header text-white bg-info">
+                    <h5 class="mb-0 text-white font-weight-bold">
+                        <i class="fas fa-tree"></i> 기타 주변환경
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info mb-2">
+                        <p class="mb-0">
+                            <i class="fas fa-star"></i> 
+                            생활 점수: <strong>{{ property.lifestyle_score }}</strong>점
+                        </p>
+                    </div>
+                    {% if surrounding_info %}
+                    <div style="white-space: pre-line; line-height: 1.8;">
+                        {{ surrounding_info }}
+                    </div>
+                    {% else %}
+                    <p class="text-muted mb-0">상세 주변환경 정보가 없습니다.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- 상세 설명 -->
+            <div class="card shadow mb-4">
+                <div class="card-header text-white">
+                    <h5 class="mb-0 text-white font-weight-bold">
+                        <i class="fas fa-file-alt"></i> 매물 설명
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div style="white-space: pre-line; line-height: 1.8;">
+                        {{ property.description }}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 액션 버튼 -->
+            <div class="card shadow mb-4">
+                <div class="card-body text-center">
+                    <div class="d-grid gap-2 d-md-block">
+                        <a href="{% url 'property:property_inquiry' property.id %}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-envelope"></i> 문의하기
+                        </a>
+                        <a href="{% url 'property:property_list' %}" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-list"></i> 목록으로
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 추천 매물 -->
+            {% if recommended_properties %}
+            <div class="card shadow mb-4">
+                <div class="card-header text-white">
+                    <h5 class="mb-0 text-white font-weight-bold">
+                        <i class="fas fa-star"></i> 관련 매물
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for rec_property in recommended_properties %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <a href="{% url 'property:property_detail' rec_property.id %}" class="text-dark">
+                                            {{ rec_property.title }}
+                                        </a>
+                                    </h6>
+                                    <p class="card-text small text-muted mb-2">
+                                        <i class="fas fa-map-marker-alt"></i> {{ rec_property.district }}
+                                    </p>
+                                    <p class="text-primary mb-2">
+                                        <strong>{{ rec_property.get_price_display }}</strong>
+                                    </p>
+                                    <a href="{% url 'property:property_detail' rec_property.id %}" class="btn btn-sm btn-outline-primary">
+                                        상세보기
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
