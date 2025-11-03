@@ -1,0 +1,8 @@
+Django==5.2.7
+asgiref==3.10.0
+sqlparse==0.5.3
+gunicorn==21.2.0
+psycopg2-binary==2.9.9  # Railway 배포 시 필요 (로컬 개발 시에는 선택사항)
+whitenoise==6.6.0
+dj-database-url==2.1.0
+

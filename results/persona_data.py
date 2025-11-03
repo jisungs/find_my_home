@@ -416,11 +416,11 @@ def get_matching_reasons(answers, persona_type):
     
     elif persona_type == '모던_미니멀형':
         if answers.get('Q9') == '모던 미니멀':
-            reasons.append('모던 미니멀 스타일을 선호하시는 점이 북구의 현대적인 환경과 잘 맞습니다!')
+            reasons.append('모던 미니멀 스타일을 선호하시는 점이 남구의 현대적인 환경과 잘 맞습니다!')
         if answers.get('Q7') == '혼자만의 시간':
-            reasons.append('개인 시간을 중시하시는 성향이 북구의 분위기와 잘 맞습니다.')
+            reasons.append('개인 시간을 중시하시는 성향이 수영구의 분위기와 잘 맞습니다.')
         if answers.get('Q2') in ['3억 이하', '3-5억']:
-            reasons.append('합리적인 예산 계획이 북구의 가격대와 잘 맞습니다.')
+            reasons.append('합리적인 예산 계획이 해운대구의 가격대와 잘 맞습니다.')
     
     return reasons
 
@@ -561,7 +561,7 @@ def get_persona_description(persona_type):
         '모던_미니멀형': {
             'title': '모던 미니멀형',
             'subtitle': '간결하고 효율적인 현대적 삶',
-            'description': '북구, 사하구 등 교통이 편리하고 현대적인 시설이 갖춰진 지역을 선호하며, 미니멀한 라이프스타일을 추구합니다. 불필요한 것 없이 간결하고 효율적인 생활을 원합니다.',
+            'description': '남구, 수영구, 해운대구 등 교통이 편리하고 현대적인 시설이 갖춰진 지역을 선호하며, 미니멀한 라이프스타일을 추구합니다. 불필요한 것 없이 간결하고 효율적인 생활을 원합니다.',
             'characteristics': [
                 '미니멀 라이프스타일',
                 '효율성 중시',

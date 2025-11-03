@@ -34,24 +34,24 @@
                         {% if question.question_type == 'single' %}
                             <div class="form-check-group">
                                 {% for choice in form.answer %}
-                                    <div class="form-check mb-3">
+                                    <label class="form-check mb-3 clickable-option" for="{{ choice.id_for_label }}">
                                         {{ choice.tag }}
-                                        <label class="form-check-label" for="{{ choice.id_for_label }}">
+                                        <span class="form-check-label">
                                             {{ choice.choice_label }}
-                                        </label>
-                                    </div>
+                                        </span>
+                                    </label>
                                 {% endfor %}
                             </div>
                             
                         {% elif question.question_type == 'multiple' %}
                             <div class="form-check-group">
                                 {% for choice in form.answer %}
-                                    <div class="form-check mb-3">
+                                    <label class="form-check mb-3 clickable-option" for="{{ choice.id_for_label }}">
                                         {{ choice.tag }}
-                                        <label class="form-check-label" for="{{ choice.id_for_label }}">
+                                        <span class="form-check-label">
                                             {{ choice.choice_label }}
-                                        </label>
-                                    </div>
+                                        </span>
+                                    </label>
                                 {% endfor %}
                             </div>
                             
@@ -104,7 +104,7 @@
                             <a href="{% url 'survey:survey_start' %}" class="btn btn-outline-secondary">
                                 <i class="fas fa-home"></i> 처음으로
                             </a>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary text-white" style="background-color: #667eea; border-color: #667eea; font-weight: bold;">
                                 다음 <i class="fas fa-arrow-right ms-1"></i>
                             </button>
                         </div>
@@ -148,6 +148,48 @@
 <script>
 $(document).ready(function() {
     var isDragModified = false; // 드래그가 수정되었는지 추적
+    
+    // 전체 옵션 영역 클릭 가능하도록 처리
+    $('.clickable-option').on('click', function(e) {
+        var $input = $(this).find('input[type="radio"], input[type="checkbox"]');
+        
+        // input 자체를 클릭한 경우는 기본 동작에 맡김
+        if ($(e.target).is('input[type="radio"], input[type="checkbox"]')) {
+            return;
+        }
+        
+        // label 영역의 다른 부분을 클릭한 경우
+        if ($input.length) {
+            // label의 기본 동작을 막고 직접 제어
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // 체크박스인 경우: 현재 상태의 반대로 토글
+            if ($input.is(':checkbox')) {
+                $input.prop('checked', !$input.prop('checked')).trigger('change');
+            } else if ($input.is(':radio')) {
+                // 라디오 버튼인 경우: 선택
+                $input.prop('checked', true).trigger('change');
+            }
+        }
+    });
+    
+    // 선택된 옵션에 시각적 피드백 추가
+    $('.clickable-option input[type="radio"], .clickable-option input[type="checkbox"]').on('change', function() {
+        if ($(this).is(':radio')) {
+            // 라디오 버튼인 경우: 모든 옵션의 스타일 초기화 후 선택된 것만 강조
+            $('.clickable-option').removeClass('selected');
+            $(this).closest('.clickable-option').addClass('selected');
+        } else {
+            // 체크박스인 경우: 각각 토글
+            $(this).closest('.clickable-option').toggleClass('selected', $(this).is(':checked'));
+        }
+    });
+    
+    // 페이지 로드 시 이미 선택된 항목에 스타일 적용
+    $('.clickable-option input[type="radio"]:checked, .clickable-option input[type="checkbox"]:checked').each(function() {
+        $(this).closest('.clickable-option').addClass('selected');
+    });
     
     // 드래그 정렬 기능
     if ($('#sortable').length) {
@@ -203,21 +245,44 @@ $(document).ready(function() {
 </script>
 
 <style>
-.form-check-group .form-check {
+.form-check-group .form-check,
+.form-check-group .clickable-option {
     padding: 1rem;
     border: 1px solid #e9ecef;
     border-radius: 0.5rem;
     transition: all 0.3s ease;
+    cursor: pointer;
+    display: block;
+    width: 100%;
 }
 
-.form-check-group .form-check:hover {
+.form-check-group .form-check:hover,
+.form-check-group .clickable-option:hover {
     background-color: #f8f9fa;
     border-color: #007bff;
 }
 
 .form-check-group .form-check-input:checked + .form-check-label {
     font-weight: 600;
+}
+
+.form-check-group .clickable-option.selected {
+    font-weight: 600;
+    background-color: #e7f3ff;
+    border-color: #007bff;
+}
+
+.form-check-group .clickable-option .form-check-label {
+    margin-left: 0.5rem;
+    pointer-events: none; /* 라벨 텍스트 클릭 시 input만 클릭되도록 */
+    color: #333; /* 진한 회색으로 텍스트 색상 설정 */
+    font-size: 1.125rem; /* 기존 크기보다 2포인트 정도 크게 (18px) */
+    font-weight: 500; /* 약간의 굵기 추가로 가독성 향상 */
+}
+
+.form-check-group .clickable-option.selected .form-check-label {
     color: #007bff;
+    font-weight: 600;
 }
 
 .drag-container .list-group-item {
