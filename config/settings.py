@@ -34,6 +34,28 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else []
 
+# CSRF 신뢰할 수 있는 Origin 목록
+CSRF_TRUSTED_ORIGINS = []
+
+# 환경 변수에서 읽기
+csrf_origins = os.environ.get('CSRF_TRUSTED_ORIGINS', '')
+if csrf_origins:
+    CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf_origins.split(',') if origin.strip()]
+
+# 환경 변수가 없으면 ALLOWED_HOSTS에서 자동 생성
+if not CSRF_TRUSTED_ORIGINS and ALLOWED_HOSTS:
+    for host in ALLOWED_HOSTS:
+        if host:
+            # HTTPS 추가 (프로덕션)
+            CSRF_TRUSTED_ORIGINS.append(f'https://{host}')
+            # HTTP도 추가 (개발 환경)
+            if DEBUG:
+                CSRF_TRUSTED_ORIGINS.append(f'http://{host}')
+
+# 로컬 개발용 기본값
+if not CSRF_TRUSTED_ORIGINS:
+    CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']
+
 
 # Application definition
 
