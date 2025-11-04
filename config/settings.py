@@ -15,9 +15,10 @@ import os
 
 # dj-database-url는 DATABASE_URL이 있을 때만 필요
 try:
-    import dj_database_url
+    import dj_database_url  # type: ignore
 except ImportError:
     dj_database_url = None
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -110,13 +111,18 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Railway 또는 프로덕션 환경에서는 DATABASE_URL 환경변수를 사용
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
-if DATABASE_URL and dj_database_url:
-    # PostgreSQL 설정 (Railway 배포 시)
+# Railway 내부 호스트명 감지 (로컬에서는 접근 불가)
+# 'railway.internal'은 Railway 내부 네트워크에서만 접근 가능
+is_railway_internal = DATABASE_URL and 'railway.internal' in DATABASE_URL
+
+if DATABASE_URL and dj_database_url is not None and not is_railway_internal:
+    # PostgreSQL 설정 (Railway 배포 시 - 외부 호스트명만, 또는 로컬 PostgreSQL)
     DATABASES = {
         'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
     }
 else:
     # 로컬 개발 환경 (SQLite)
+    # Railway 내부 호스트명이 포함된 경우에도 로컬에서는 SQLite 사용
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
