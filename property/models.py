@@ -32,7 +32,7 @@ class Property(models.Model):
     parking = models.IntegerField(verbose_name="주차 가능 대수")
     garden_area = models.IntegerField(null=True, blank=True, verbose_name="정원 면적 (평)")
     description = models.TextField(verbose_name="상세 설명")
-    images = models.JSONField(default=list, verbose_name="이미지 URL 목록")
+    images = models.JSONField(default=list, blank=True, verbose_name="이미지 URL 목록")
     persona_match = models.CharField(max_length=50, choices=PERSONA_MATCHES, verbose_name="페르소나 매칭")
     
     # 점수 시스템

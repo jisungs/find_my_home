@@ -37,6 +37,7 @@ class AreaRecommendation(models.Model):
     advantages = models.JSONField(default=list, verbose_name="장점")
     disadvantages = models.JSONField(default=list, verbose_name="단점")
     average_price = models.IntegerField(verbose_name="평균 가격")
+    image_urls = models.JSONField(default=list, blank=True, verbose_name="이미지 URL 목록")
     transportation_score = models.IntegerField(default=0, verbose_name="교통 점수")
     education_score = models.IntegerField(default=0, verbose_name="교육 점수")
     lifestyle_score = models.IntegerField(default=0, verbose_name="생활 점수")
